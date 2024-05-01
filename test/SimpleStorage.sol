@@ -3,9 +3,19 @@
 pragma solidity ^0.8.0;
 
 contract SimpleStorage {
-    uint256 number;
+    uint256 myNumber;
+  
+    People[] public people;
 
-    function assignNumber (uint256 _number) public {
-        number = _number;
+    struct People {
+        uint256 favoriteNumber;
+        string name;
+    }
+
+    function addPerson(string memory _name, uint256 _favoriteNumber) public {
+        people.push(People(_favoriteNumber, _name));
+    }
+    function store (uint256 number) public {
+        myNumber = number;
     }
 }
