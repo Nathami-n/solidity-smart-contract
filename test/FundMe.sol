@@ -6,6 +6,8 @@ pragma solidity ^0.8.0;
 
 import "./PriceConverter.sol";
 
+error notOwner();
+
 contract FundMe {
     using PriceConverter for uint256;
 
@@ -31,7 +33,7 @@ contract FundMe {
             address funderAdress = funders[add];
             addressToAmountFunded[funderAdress] = 0;
         }
-         funders = new address[](0);
+        funders = new address[](0);
 
         //fund the user 
         (bool success, ) = payable(msg.sender).call{value: address(this).balance}('');
@@ -41,10 +43,18 @@ contract FundMe {
 
    modifier checkUser {
     if(msg.sender != sender) {
-        revert("Not allowed");
+        revert notOwner();
     }
     _;
 
    }
+
+   fallback() external payable {
+        fund();
+    }
+
+    receive() external payable {
+        fund();
+    }
     
 }
