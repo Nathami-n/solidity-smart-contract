@@ -31,6 +31,11 @@ contract FundMe {
             address funderAdress = funders[add];
             addressToAmountFunded[funderAdress] = 0;
         }
+         funders = new address[](0);
+
+        //fund the user 
+        (bool success, ) = payable(msg.sender).call{value: address(this).balance}('');
+        require(success, "failed");
     }
    
 
